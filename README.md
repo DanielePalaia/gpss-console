@@ -6,7 +6,7 @@ https://gpdb.docs.pivotal.io/streaming-server/1-4/api/dev_client.html
 
 To use it you need at least gpss 1.4 installed in your server
 
-## How to run the project:
+### How to run the project:
 
 In the bin directory of this project you will find the .jar developed. </br>
 
@@ -25,7 +25,7 @@ java -jar gpssconsole-0.0.1-SNAPSHOT.java
 
 A web service will be spawned listening to port 8080
 
-## Open a browser to port 8080 
+### Open a browser to port 8080 
 
 click on controller and you should see something like this:
 
@@ -36,7 +36,7 @@ http://localhost:8080/swagger-ui.html#/
 </br>
 ![Screenshot](./pics/second.png)
 
-## test api
+### test the apis
 
 The software is developed as a rest api style (with some personalization)
 
@@ -45,6 +45,22 @@ PUT: Will submit a new job (gpss submit) </br>
 POST: will start a job (gpss start) </br>
 PATCH: will stop a job (gpss stop, sorry for this one but it was the last verb left) </br>
 DELETE: will delete a job (gpss remove) </br>
+
+### test the GET
+
+To list all the jobs currectly submitted
+
+Click on try it out!
+
+![Screenshot](./pics/third.png)
+![Screenshot](./pics/four.png)
+
+### test the PUT - POST - PATCH - DELETE
+
+To submit, start, stop and delete a job. You need the job name
+
+![Screenshot](./pics/five.png)
+![Screenshot](./pics/six.png)
 
 
 
