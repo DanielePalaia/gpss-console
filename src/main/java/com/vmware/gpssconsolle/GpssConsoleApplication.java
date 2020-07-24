@@ -7,13 +7,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.CommandLineRunner;
 
 @SpringBootApplication
-public class GpssConsoleApplication implements CommandLineRunner {
+public class GpssConsoleApplication /*implements CommandLineRunner*/ {
 
 	public static void main(String[] args) {
 		SpringApplication.run(GpssConsoleApplication.class, args);
 	}
 
-	@Override
+	/*@Override
 	public void run(String[] args) throws Exception {
 
 
@@ -24,7 +24,7 @@ public class GpssConsoleApplication implements CommandLineRunner {
 		gpssWrapper.startJob("jobFromRemote");
 
 
-	}
+	}*/
 
 }
 

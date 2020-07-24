@@ -131,8 +131,11 @@ public class GpssWrapper {
 
     }
 
-    public void startJob(String name)     {
+    public Boolean startJob(String name)     {
 
+
+
+        Boolean success = false;
         JobIdentifier jobId = JobIdentifier.newBuilder()
                 .setJobName(name)
                 .build();
@@ -141,11 +144,26 @@ public class GpssWrapper {
                 .setJobIdentifier(jobId)
                 .build();
 
-        bStub.startJob(startJob);
+        StartJobResponse startJobResponse = null;
+
+        try {
+            startJobResponse = bStub.startJob(startJob);
+        }
+        catch (Exception e)    {
+            return false;
+        }
+
+        if (startJobResponse == null)    {
+            return false;
+        }
+
+        return true;
 
     }
 
-    public void stopJob(String name)     {
+    public Boolean stopJob(String name)     {
+
+        Boolean success = false;
 
         JobIdentifier jobId = JobIdentifier.newBuilder()
                 .setJobName(name)
@@ -155,22 +173,82 @@ public class GpssWrapper {
                 .setJobIdentifier(jobId)
                 .build();
 
-        bStub.stopJob(stopJob);
+        try {
+            bStub.stopJob(stopJob);
+        }
+        catch (Exception e)    {
+            return false;
+        }
+
+        return true;
 
     }
 
-    public void listJobs(String name)   {
+    public String listJobs(String name)   {
 
 
-       ListJobResponse listReponse =  bStub.listJobs(ListJobRequest.getDefaultInstance());
+       ListJobResponse listResponse =  bStub.listJobs(ListJobRequest.getDefaultInstance());
 
-       List<JobInfo> listJobs = listReponse.getJobInfosList();
+       if(listResponse == null)     {
+           String output = "Server returned an error value";
+           return output;
+       }
 
-       for(JobInfo job : listJobs)    {
+       List<JobInfo> listJobs = listResponse.getJobInfosList();
 
-            System.out.println("Listing jobs:" + job.toString());
+       String output = "";
+
+       output = "JobName               JobHost               GPport               Database             Schema                 Table                 Topic                  Status \n\n";
+
+
+       int lineformat = 22;
+
+       for(JobInfo job : listJobs) {
+           output += job.getName();
+
+           for (int i = 0; i < lineformat - job.getName().length(); i++)
+               output += " ";
+
+           output += job.getTarget().getGpdb().getHost();
+
+           for (int i = 0; i < lineformat - job.getTarget().getGpdb().getHost().length(); i++)
+               output += " ";
+
+           output += job.getTarget().getGpdb().getPort();
+
+           for (int i = 0; i < lineformat - 5; i++)
+               output += " ";
+
+           output += job.getTarget().getGpdb().getDatabase();
+
+           for (int i = 0; i < lineformat - job.getTarget().getGpdb().getDatabase().length(); i++)
+               output += " ";
+
+           output += job.getTarget().getGpdb().getSchema();
+
+           for (int i = 0; i < lineformat - job.getTarget().getGpdb().getSchema().length(); i++)
+               output += " ";
+
+           output += job.getTarget().getGpdb().getTable();
+
+           for (int i = 0; i < lineformat - job.getTarget().getGpdb().getTable().length(); i++)
+               output += " ";
+
+           output += job.getSource().getKafka().getTopic();
+
+           for (int i = 0; i < lineformat - job.getSource().getKafka().getTopic().length(); i++)
+               output += " ";
+
+           output += job.getStatus().getCode();
+
+
+
+           output += "\n";
 
        }
+
+
+       return output;
 
     }
 
