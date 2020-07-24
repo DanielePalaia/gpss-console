@@ -70,7 +70,7 @@ To submit a job. In this case you need a yaml file (the same one you would use w
 ![Screenshot](./pics/seven.png)
 
 
-### Limitation
+### Limitations
 
 Still to be tested... api always return 200 even if an error occours (even tough the error is reported). 
 Difference between gpsscli and grpc on list.
