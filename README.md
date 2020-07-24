@@ -40,11 +40,11 @@ http://localhost:8080/swagger-ui.html#/
 
 The software is developed as a rest api style (with some personalization)
 
-**GET: will list all the jobs in the grpcli (same as gpsscli list)** </br>
-**PUT: Will submit a new job (gpss submit)** </br>
-**POST: will start a job (gpss start)** </br>
-**PATCH: will stop a job (gpss stop, sorry for this one but it was the last verb left)** </br>
-**DELETE: will delete a job (gpss remove)** </br>
+GET: will list all the jobs in the grpcli (same as gpsscli list) </br>
+PUT: Will submit a new job (gpss submit) </br>
+POST: will start a job (gpss start) </br>
+PATCH: will stop a job (gpss stop, sorry for this one but it was the last verb left) </br>
+DELETE: will delete a job (gpss remove) </br>
 
 
 
