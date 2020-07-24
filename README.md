@@ -55,12 +55,17 @@ Click on try it out!
 ![Screenshot](./pics/third.png)
 ![Screenshot](./pics/four.png)
 
-### test the PUT - POST - PATCH - DELETE
+### test the POST - PATCH - DELETE
 
-To submit, start, stop and delete a job. You need the job name
+To start, stop and delete a job. You need the job name
 
 ![Screenshot](./pics/five.png)
 ![Screenshot](./pics/six.png)
 
+### test the PUT
+
+To submit a job. In this case you need a yaml file (the same one you would use with gpsscli) and the name of the job
+
+![Screenshot](./pics/seven.png)
 
 
