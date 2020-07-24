@@ -4,7 +4,8 @@ This project serves as a demo to test the new gpss-grpc interface to manage gpss
 
 https://gpdb.docs.pivotal.io/streaming-server/1-4/api/dev_client.html
 
-To use it you need at least gpss 1.4 installed in your server
+To use it you need at least gpss 1.4 installed in your server.
+The software is written in Java so it can run on every OS where java (7 or above) is installed.
 
 ### How to run the project:
 
