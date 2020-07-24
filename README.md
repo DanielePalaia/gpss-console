@@ -70,3 +70,8 @@ To submit a job. In this case you need a yaml file (the same one you would use w
 ![Screenshot](./pics/seven.png)
 
 
+### Limitation
+
+Still to be tested... api always return 200 even if an error occours (even tough the error is reported). 
+Difference between gpsscli and grpc on list.
+In gpsscli list will only list jobs started (not just submitted or stopped) while the grpc interface will list also the ones started or stopped...
