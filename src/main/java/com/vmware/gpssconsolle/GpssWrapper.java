@@ -17,19 +17,6 @@ public class GpssWrapper {
     private String gpssHost;
     private int gpssPort;
     private JobServiceGrpc.JobServiceBlockingStub bStub = null;
-    //private Session mSession = null;
-    /*private String gpMasterHost;
-    private Integer gpMasterPort;
-    private String gpRoleName;
-    private String gpPasswd;
-    private String dbName;
-    private String schemaName;
-    private String tableName;
-
-    private String kafkaBrokers;
-    private String kafkaTopic;*/
-
-
 
     private final static Logger logger = Logger.getLogger(GpssWrapper.class.getName());
 
@@ -38,23 +25,6 @@ public class GpssWrapper {
         /* GPSS connection parameters */
         this.gpssHost = gpssHost;
         this.gpssPort = gpssPort;
-
-        /* Greenplum connection parameter */
-        /*this.gpMasterHost = gpMasterHost;
-        this.gpMasterPort = gpMasterPort;
-        this.gpRoleName =  gpRoleName;
-        if (gpPasswd == null)  {
-            this.gpPasswd = "";
-        } else {
-            this.gpPasswd = gpPasswd;
-        }
-        this.dbName = dbName;
-        this.tableName = tableName;
-        this.schemaName = schemaName;*/
-
-        /* Kafka connection parameters */
-
-
 
     }
 
@@ -82,29 +52,11 @@ public class GpssWrapper {
 
     }
 
-    public void submitJob(String yamlPath, String name)    {
+    public Boolean submitJob(String yamlPath, String name)    {
 
-        /*GPDBTarget gpdbTarget =  GPDBTarget.newBuilder()
-                .setHost(this.gpMasterHost)
-                .setPort(this.gpMasterPort)
-                .setPassword(this.gpPasswd)
-                .setSchema(this.schemaName)
-                .setDatabase(this.dbName)
-                .setTable(this.tableName)
-                .build();
+        Boolean success = true;
 
-        KafkaSource kafkaSource = KafkaSource.newBuilder()
-                .setBrokers(this.kafkaBrokers)
-                .setTopic(this.kafkaTopic)
-                .build();
-
-
-        Target targetValue = Target.newBuilder()
-                .setGpdb(gpdbTarget)
-                .build();
-*/
-
-
+        System.out.println("yamlPath:" + yamlPath + " name: " + name);
         String yamlContent = fileAsString(yamlPath);
 
         SubmitRawJobRequest builder = SubmitRawJobRequest.newBuilder()
@@ -112,22 +64,15 @@ public class GpssWrapper {
                 .setYamlContent(yamlContent)
                 .build();
 
-        bStub.submitRawJob(builder);
-
-       /* InputStream inputstream = null;
-        SubmitJobResponse submitResponse = null;
-
         try {
-            inputstream = new FileInputStream(fileConfigurationPath);
-            SubmitJobRequest jobRequest = SubmitJobRequest.parseFrom(inputstream);
-
-
-            submitResponse = bStub.submitJob(jobRequest);
-
+            bStub.submitRawJob(builder);
         }
-        catch (Exception e)   {
-            e.printStackTrace();
-        }*/
+
+        catch(Exception e)   {
+            success = false;
+        }
+
+       return success;
 
     }
 
@@ -175,6 +120,29 @@ public class GpssWrapper {
 
         try {
             bStub.stopJob(stopJob);
+        }
+        catch (Exception e)    {
+            return false;
+        }
+
+        return true;
+
+    }
+
+    public Boolean deleteJob(String name)     {
+
+        Boolean success = false;
+
+        JobIdentifier jobId = JobIdentifier.newBuilder()
+                .setJobName(name)
+                .build();
+
+        RemoveJobRequest deleteJob = RemoveJobRequest.newBuilder()
+                .setJobIdentifier(jobId)
+                .build();
+
+        try {
+            bStub.removeJob(deleteJob);
         }
         catch (Exception e)    {
             return false;
