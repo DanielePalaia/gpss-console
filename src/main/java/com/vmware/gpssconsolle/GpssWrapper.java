@@ -52,11 +52,12 @@ public class GpssWrapper {
 
     }
 
-    public Boolean submitJob(String yamlPath, String name)    {
+    public String submitJob(String yamlPath, String name)    {
 
-        Boolean success = true;
+        String errorMessage = "";
 
         System.out.println("yamlPath:" + yamlPath + " name: " + name);
+        try {
         String yamlContent = fileAsString(yamlPath);
 
         SubmitRawJobRequest builder = SubmitRawJobRequest.newBuilder()
@@ -64,23 +65,21 @@ public class GpssWrapper {
                 .setYamlContent(yamlContent)
                 .build();
 
-        try {
+
             bStub.submitRawJob(builder);
         }
 
         catch(Exception e)   {
-            success = false;
+            errorMessage = convertExceptionToString(e);
         }
 
-       return success;
+       return errorMessage;
 
     }
 
-    public Boolean startJob(String name)     {
+    public String startJob(String name)     {
 
-
-
-        Boolean success = false;
+        String errorMessage = "";
         JobIdentifier jobId = JobIdentifier.newBuilder()
                 .setJobName(name)
                 .build();
@@ -95,21 +94,17 @@ public class GpssWrapper {
             startJobResponse = bStub.startJob(startJob);
         }
         catch (Exception e)    {
-            return false;
+            errorMessage = convertExceptionToString(e);
+            return errorMessage;
         }
 
-        if (startJobResponse == null)    {
-            return false;
-        }
-
-        return true;
+        return errorMessage;
 
     }
 
-    public Boolean stopJob(String name)     {
+    public String stopJob(String name)     {
 
-        Boolean success = false;
-
+        String errorMessage = "";
         JobIdentifier jobId = JobIdentifier.newBuilder()
                 .setJobName(name)
                 .build();
@@ -122,16 +117,17 @@ public class GpssWrapper {
             bStub.stopJob(stopJob);
         }
         catch (Exception e)    {
-            return false;
+            errorMessage = convertExceptionToString(e);
+            return errorMessage;
         }
 
-        return true;
+        return errorMessage;
 
     }
 
-    public Boolean deleteJob(String name)     {
+    public String deleteJob(String name)     {
 
-        Boolean success = false;
+        String errorMessage = "";
 
         JobIdentifier jobId = JobIdentifier.newBuilder()
                 .setJobName(name)
@@ -145,10 +141,11 @@ public class GpssWrapper {
             bStub.removeJob(deleteJob);
         }
         catch (Exception e)    {
-            return false;
+            errorMessage = convertExceptionToString(e);
+            return errorMessage;
         }
 
-        return true;
+        return errorMessage;
 
     }
 
@@ -220,25 +217,31 @@ public class GpssWrapper {
 
     }
 
-    private String fileAsString(String filePath)   {
+    private String fileAsString(String filePath) throws Exception  {
 
         StringBuilder sb = null;
-        try {
-            InputStream is = new FileInputStream(filePath);
-            BufferedReader buf = new BufferedReader(new InputStreamReader(is));
-            String line = buf.readLine();
-            sb = new StringBuilder();
-            while (line != null) {
-                sb.append(line).append("\n");
-                line = buf.readLine();
-            }
+
+        InputStream is = new FileInputStream(filePath);
+        BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+        String line = buf.readLine();
+        sb = new StringBuilder();
+        while (line != null) {
+            sb.append(line).append("\n");
+            line = buf.readLine();
         }
-        catch(Exception e)    {
-            e.printStackTrace();
-        }
+
+
         return sb.toString();
 
 
+    }
+
+    private String convertExceptionToString(Exception e)   {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        String sStackTrace = sw.toString(); // stack trace as a string
+        return sStackTrace;
     }
 
 

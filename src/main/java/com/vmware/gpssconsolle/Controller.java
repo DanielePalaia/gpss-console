@@ -21,12 +21,12 @@ public class Controller {
 
 
         buildGpssInstance();
-        Boolean success = gpssWrapper.submitJob(YamlFilePath, JobName);
+        String success = gpssWrapper.submitJob(YamlFilePath, JobName);
 
-        if(success == true)
+        if(success == "")
             return ResponseEntity.ok("Job " + JobName + " correctly submitted!");
         else
-            return ResponseEntity.ok("Job " + JobName + " error submitting the job");
+            return ResponseEntity.ok("Job " + JobName + " Not correctlu submitted \n" + success);
 
     }
 
@@ -44,15 +44,15 @@ public class Controller {
     }
 
     @RequestMapping(value = "/console", method = RequestMethod.POST,  params = {"JobName"})
-    public ResponseEntity<Object>  createJob(@RequestParam(value="JobName") String JobName) {
+    public ResponseEntity<Object>  startJob(@RequestParam(value="JobName") String JobName) {
 
         buildGpssInstance();
-        Boolean success = gpssWrapper.startJob(JobName);
+        String success = gpssWrapper.startJob(JobName);
 
-        if(success == true)
+        if(success == "")
             return ResponseEntity.ok("Job " + JobName + " correctly started!");
         else
-            return ResponseEntity.ok("Job " + JobName + " not started: Not found or already running");
+            return ResponseEntity.ok("Job " + JobName + " not correctly started \n" + success);
 
     }
 
@@ -60,12 +60,12 @@ public class Controller {
     public ResponseEntity<Object>  stopJob(@RequestParam(value="JobName") String JobName) {
 
         buildGpssInstance();
-        Boolean success = gpssWrapper.stopJob(JobName);
+        String success = gpssWrapper.stopJob(JobName);
 
-        if(success == true)
+        if(success == "")
             return ResponseEntity.ok("Job " + JobName + " correctly stopped!");
         else
-            return ResponseEntity.ok("Job " + JobName + " not stopped: Not found or already stopped");
+            return ResponseEntity.ok("Job " + JobName + " not correctly stopped\n" + success);
 
     }
 
@@ -73,12 +73,12 @@ public class Controller {
     public ResponseEntity<Object>  deleteJob(@RequestParam(value="JobName") String JobName) {
 
         buildGpssInstance();
-        Boolean success = gpssWrapper.deleteJob(JobName);
+        String success = gpssWrapper.deleteJob(JobName);
 
-        if(success == true)
+        if(success == "")
             return ResponseEntity.ok("Job " + JobName + " correctly stopped!");
         else
-            return ResponseEntity.ok("Job " + JobName + " not delete: Not found or still running (stop it before)");
+            return ResponseEntity.ok("Job " + JobName + " not correcty deleted: \n" + success);
 
     }
 
