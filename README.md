@@ -18,9 +18,9 @@ gpssHost=172.16.125.163
 gpssPort=50009
 ```
 
-The load the .jar in following way also as for image </br>
+Then load the .jar in following way also as for image </br>
 
-java -jar gpssconsole-0.0.1-SNAPSHOT.java
+java -jar gpssconsole-0.0.1-SNAPSHOT.jar
 
 ![Screenshot](./pics/spring.png)
 
